@@ -5,6 +5,8 @@ import { getFunName } from '../helpers'
 class StorePicker extends React.Component {
   goToStore(event) {
     event.preventDefault()
+    const storeId = this.storeInput.value
+    this.context.router.transitionTo(`/store/${storeId}`)
   }
 
   render() {
@@ -20,6 +22,10 @@ class StorePicker extends React.Component {
       </div>
     )
   }
+}
+
+StorePicker.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 
 export default StorePicker
