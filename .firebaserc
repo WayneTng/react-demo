@@ -1,5 +1,6 @@
 {
   "projects": {
     "default": "catch-of-the-day-e58d9"
+    "staging": "catch-of-the-day-staging"
   }
 }
