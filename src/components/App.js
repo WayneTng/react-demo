@@ -4,7 +4,8 @@ import Order from './Order'
 import Inventory from './Inventory'
 import Fish from './Fish'
 import sampleFishes from '../sample-fishes'
-import base from '../base'
+// import base from '../base'
+import database from '../database'
 
 class App extends React.Component {
   constructor() {
@@ -18,17 +19,23 @@ class App extends React.Component {
 
   componentWillMount() {
     const { storeId } = this.props.params
-    this.ref = base.syncState(`${storeId}/fishes`, {
-      context: this,
-      state: 'fishes'
+    database.ref(`${storeId}/fishes`).on('value', (snapshot) => {
+      if (snapshot.val() !== null) {
+        this.setState({fishes: snapshot.val()})
+      }
     })
   }
 
   componentWillUnmount() {
-    base.removeBinding(this.ref)
+    // base.removeBinding(this.ref)
   }
 
   loadSamples() {
+    const { storeId } = this.props.params
+    database.ref(`${storeId}/fishes`).set(
+      sampleFishes
+    )
+
     this.setState({
       fishes: sampleFishes
     })
@@ -45,10 +52,15 @@ class App extends React.Component {
   addFish(fish) {
     const fishes = { ...this.state.fishes }
     const timestamp = Date.now()
+    const fishId = `fish-${ timestamp }`
 
-    fishes[`fish-${ timestamp }`] = fish
-
+    fishes[fishId] = fish
     this.setState({ fishes })
+
+    const { storeId } = this.props.params
+    database.ref(`${storeId}/fishes/${fishId}`).set(
+      fish
+    )
   }
 
   render() {

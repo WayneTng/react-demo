@@ -9,6 +9,7 @@
     "stylus": "0.54.5"
   },
   "dependencies": {
+    "firebase": "^3.5.3",
     "history": "4.2.0",
     "re-base": "2.2.0",
     "react": "15.3.2",
