@@ -21,11 +21,19 @@ class App extends React.Component {
     })
   }
 
+  addToOrder(key) {
+    const order = { ...this.state.order }
+    order[key] = order[key] + 1 || 1
+    this.setState({
+      order
+    })
+  }
+
   addFish(fish) {
-    const fishes = {...this.state.fishes}
+    const fishes = { ...this.state.fishes }
     const timestamp = Date.now()
 
-    fishes[`fish-${timestamp}`] = fish
+    fishes[`fish-${ timestamp }`] = fish
 
     this.setState({ fishes })
   }
@@ -38,7 +46,7 @@ class App extends React.Component {
           <Header tagline='Fresh Seafood Market' />
           <ul className='list-of-fishes'>
             {
-              Object.keys(fishes).map((key) => <Fish key={key} details={fishes[key]}/>)
+              Object.keys(fishes).map((key) => <Fish key={key} details={fishes[key]} addToOrder={(key) => this.addToOrder(key)} index={key}/>)
             }
           </ul>
         </div>
