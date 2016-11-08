@@ -4,8 +4,7 @@ import Order from './Order'
 import Inventory from './Inventory'
 import Fish from './Fish'
 import sampleFishes from '../sample-fishes'
-// import base from '../base'
-import database from '../database'
+import { database } from '../database'
 
 class App extends React.Component {
   constructor() {
@@ -124,6 +123,7 @@ class App extends React.Component {
           fishes={fishes}
           updateFish={(key, updatedFish) => this.updateFish(key, updatedFish)}
           removeFish={(key) => this.removeFish(key)}
+          storeId={storeId}
           />
       </div>
     )
