@@ -22,4 +22,8 @@ class Fish extends React.Component {
   }
 }
 
+Fish.propTypes = {
+  details: React.PropTypes.object.isRequired
+}
+
 export default Fish

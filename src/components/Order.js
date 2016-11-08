@@ -49,7 +49,13 @@ class Order extends React.Component {
     return(
       <div className='order-wrap'>
         <h2> Your Order </h2>
-        <CSSTransitionGroup className='order' component='ul' transitionName='order' transitionEnterTimeout={500} transitionalLeaveTimeout={500}>
+        <CSSTransitionGroup
+          className='order'
+          component='ul'
+          transitionName='order'
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+          >
           {orderIds.map((key) => this.renderOrder(key))}
           <li className='total'>
             <strong> Total: </strong>
@@ -59,6 +65,12 @@ class Order extends React.Component {
       </div>
     )
   }
+}
+
+Order.propTypes = {
+  fishes: React.PropTypes.object.isRequired,
+  order: React.PropTypes.object.isRequired,
+  removeFromOrder: React.PropTypes.func.isRequired
 }
 
 export default Order
