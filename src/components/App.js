@@ -83,10 +83,14 @@ class App extends React.Component {
 
   updateFish(key, updatedFish) {
     const fishes = {...this.state.fishes}
+    const { storeId } = this.props.params
+
     fishes[key] = updatedFish
     this.setState({
       fishes
     })
+
+    database.ref(`${storeId}/fishes`).child(key).update(updatedFish)
   }
 
   removeFish(key) {
@@ -95,7 +99,7 @@ class App extends React.Component {
 
     delete fishes[key]
     this.setState({ fishes })
-    database.ref(`${storeId}/fishes`).child(key).remove()
+    database.ref(`${storeId}/fishes/${key}`).remove()
   }
 
   render() {
