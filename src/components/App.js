@@ -62,6 +62,12 @@ class App extends React.Component {
     })
   }
 
+  removeFromOrder(key) {
+    const order = {...this.state.order}
+    delete order[key];
+    this.setState({ order })
+  }
+
   addFish(fish) {
     const fishes = { ...this.state.fishes }
     const timestamp = Date.now()
@@ -84,6 +90,15 @@ class App extends React.Component {
     })
   }
 
+  removeFish(key) {
+    const { storeId } = this.props.params
+    const fishes = {...this.state.fishes}
+
+    delete fishes[key]
+    this.setState({ fishes })
+    database.ref(`${storeId}/fishes`).child(key).remove()
+  }
+
   render() {
     const { fishes, order } = this.state
     const { storeId } = this.props.params
@@ -101,12 +116,14 @@ class App extends React.Component {
           fishes={fishes}
           order={order}
           storeId={storeId}
+          removeFromOrder={(key) => this.removeFromOrder(key)}
         />
         <Inventory
           addFish={(fish) => this.addFish(fish)}
           loadSamples={() => this.loadSamples()}
           fishes={fishes}
           updateFish={(key, updatedFish) => this.updateFish(key, updatedFish)}
+          removeFish={(key) => this.removeFish(key)}
           />
       </div>
     )
