@@ -24,10 +24,23 @@ class App extends React.Component {
         this.setState({fishes: snapshot.val()})
       }
     })
+
+    const localStorageRef = localStorage.getItem(`order-${storeId}`)
+
+    if(localStorageRef) {
+      this.setState({
+        order: JSON.parse(localStorageRef)
+      })
+    }
   }
 
   componentWillUnmount() {
     // base.removeBinding(this.ref)
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    const { storeId } = this.props.params
+    localStorage.setItem(`order-${ storeId }`, JSON.stringify(nextState.order))
   }
 
   loadSamples() {
@@ -63,8 +76,17 @@ class App extends React.Component {
     )
   }
 
+  updateFish(key, updatedFish) {
+    const fishes = {...this.state.fishes}
+    fishes[key] = updatedFish
+    this.setState({
+      fishes
+    })
+  }
+
   render() {
     const { fishes, order } = this.state
+    const { storeId } = this.props.params
     return(
       <div className='catch-of-the-day'>
         <div className='menu'>
@@ -75,10 +97,16 @@ class App extends React.Component {
             }
           </ul>
         </div>
-        <Order fishes={fishes} order={order} />
+        <Order
+          fishes={fishes}
+          order={order}
+          storeId={storeId}
+        />
         <Inventory
           addFish={(fish) => this.addFish(fish)}
           loadSamples={() => this.loadSamples()}
+          fishes={fishes}
+          updateFish={(key, updatedFish) => this.updateFish(key, updatedFish)}
           />
       </div>
     )
