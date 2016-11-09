@@ -1,6 +1,6 @@
 import firebase from 'firebase/app'
-require('firebase/database')
-require('firebase/auth')
+import 'firebase/database'
+import 'firebase/auth'
 
 let config = {
     apiKey: "AIzaSyAY3rPi3ZEVhFir8C9Bjtnu1B-XyLWR-_o",

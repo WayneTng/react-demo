@@ -4,7 +4,7 @@ import Order from './Order'
 import Inventory from './Inventory'
 import Fish from './Fish'
 import sampleFishes from '../sample-fishes'
-import { database } from '../database'
+import { database } from '../firebase'
 
 class App extends React.Component {
   constructor() {
@@ -34,7 +34,8 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    // base.removeBinding(this.ref)
+    const { storeId } = this.props.params
+    database.ref(`${storeId}/fishes`).off()
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -76,9 +77,7 @@ class App extends React.Component {
     this.setState({ fishes })
 
     const { storeId } = this.props.params
-    database.ref(`${storeId}/fishes/${fishId}`).set(
-      fish
-    )
+    database.ref(`${storeId}/fishes/${fishId}`).set(fish)
   }
 
   updateFish(key, updatedFish) {
@@ -86,9 +85,7 @@ class App extends React.Component {
     const { storeId } = this.props.params
 
     fishes[key] = updatedFish
-    this.setState({
-      fishes
-    })
+    this.setState({ fishes })
 
     database.ref(`${storeId}/fishes`).child(key).update(updatedFish)
   }

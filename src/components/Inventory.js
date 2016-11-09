@@ -1,7 +1,7 @@
 import React from 'react'
 import AddFishForm from './AddFishForm'
 import firebase from 'firebase/app'
-import { auth, database } from '../database'
+import { auth, database } from '../firebase'
 
 class Inventory extends React.Component {
   constructor() {
