@@ -1,6 +1,7 @@
 import React from 'react'
 import {formatPrice} from '../helpers'
 import CSSTransitionGroup from 'react-addons-css-transition-group'
+import Timer from './Timer'
 
 class Order extends React.Component {
   renderOrder(key) {
@@ -62,6 +63,7 @@ class Order extends React.Component {
             {formatPrice(total)}
           </li>
         </CSSTransitionGroup>
+        <Timer />
       </div>
     )
   }
