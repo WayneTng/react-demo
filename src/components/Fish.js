@@ -1,10 +1,12 @@
 import React from 'react'
 import { formatPrice } from '../helpers'
+import orderStore from '../stores/Order'
+import { observer } from 'mobx-react'
 
-class Fish extends React.Component {
+@observer class Fish extends React.Component {
   render() {
     const { name, image, price, desc, status } = this.props.details
-    const { addToOrder, index } = this.props
+    const { index } = this.props
     const isAvailable = status === 'available'
     const buttonText = isAvailable ? 'Add To Order' : 'Sold Out!'
 
@@ -16,7 +18,7 @@ class Fish extends React.Component {
           <span className='price'> {formatPrice(price)} </span>
         </h3>
         <p> {desc} </p>
-        <button onClick={() => addToOrder(index)} disabled={!isAvailable}> {buttonText} </button>
+        <button onClick={() => orderStore.addToOrder(index)} disabled={!isAvailable}> {buttonText} </button>
       </li>
     )
   }
@@ -30,9 +32,7 @@ Fish.propTypes = {
     desc: React.PropTypes.string.isRequired,
     status: React.PropTypes.string.isRequired
   }),
-  // details: React.PropTypes.object.isRequired,
-  index: React.PropTypes.string.isRequired,
-  addToOrder: React.PropTypes.func.isRequired
+  index: React.PropTypes.string.isRequired
 }
 
 export default Fish

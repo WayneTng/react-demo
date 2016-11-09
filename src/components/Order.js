@@ -2,13 +2,15 @@ import React from 'react'
 import {formatPrice} from '../helpers'
 import CSSTransitionGroup from 'react-addons-css-transition-group'
 import Timer from './Timer'
+import { observer } from 'mobx-react'
+import orderStore from '../stores/Order'
 
-class Order extends React.Component {
+@observer class Order extends React.Component {
   renderOrder(key) {
-    const { fishes, order, removeFromOrder } = this.props
+    const { fishes } = this.props
     const fish = fishes[key]
-    const count = order[key]
-    const removeButton = <button onClick={() => removeFromOrder(key)}>&times;</button>
+    const count = orderStore.order[key]
+    const removeButton = <button onClick={() => orderStore.removeFromOrder(key)}>&times;</button>
 
     if (!fish || fish.status === 'unavailable') {
       return <li key={key}>Sorry, Fish is no longer available! {removeButton}</li>
@@ -35,11 +37,11 @@ class Order extends React.Component {
   }
 
   render() {
-    const { order, fishes } = this.props
-    const orderIds = Object.keys(order)
+    const { fishes } = this.props
+    const orderIds = Object.keys(orderStore.order)
     const total = orderIds.reduce((prevTotal, key) => {
       const fish = fishes[key]
-      const count = order[key]
+      const count = orderStore.order[key]
       const isAvailable = fish && fish.status === 'available'
       if (isAvailable) {
         return prevTotal + (count * fish.price || 0)
@@ -70,9 +72,7 @@ class Order extends React.Component {
 }
 
 Order.propTypes = {
-  fishes: React.PropTypes.object.isRequired,
-  order: React.PropTypes.object.isRequired,
-  removeFromOrder: React.PropTypes.func.isRequired
+  fishes: React.PropTypes.object.isRequired
 }
 
 export default Order

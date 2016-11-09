@@ -5,13 +5,13 @@ import Inventory from './Inventory'
 import Fish from './Fish'
 import sampleFishes from '../sample-fishes'
 import { database } from '../firebase'
+import { observer } from 'mobx-react'
 
-class App extends React.Component {
+@observer class App extends React.Component {
   constructor() {
-    super();
+    super()
     this.state = {
       fishes: {},
-      order: {},
       inventory: {}
     }
   }
@@ -25,8 +25,7 @@ class App extends React.Component {
     })
 
     const localStorageRef = localStorage.getItem(`order-${storeId}`)
-
-    if(localStorageRef) {
+    if (localStorageRef) {
       this.setState({
         order: JSON.parse(localStorageRef)
       })
@@ -52,20 +51,6 @@ class App extends React.Component {
     this.setState({
       fishes: sampleFishes
     })
-  }
-
-  addToOrder(key) {
-    const order = { ...this.state.order }
-    order[key] = order[key] + 1 || 1
-    this.setState({
-      order
-    })
-  }
-
-  removeFromOrder(key) {
-    const order = {...this.state.order}
-    delete order[key];
-    this.setState({ order })
   }
 
   addFish(fish) {
@@ -108,7 +93,13 @@ class App extends React.Component {
           <Header tagline='Fresh Seafood Market' />
           <ul className='list-of-fishes'>
             {
-              Object.keys(fishes).map((key) => <Fish key={key} details={fishes[key]} addToOrder={(key) => this.addToOrder(key)} index={key}/>)
+              Object.keys(fishes).map((key) =>
+                <Fish
+                  key={key}
+                  index={key}
+                  details={fishes[key]}
+                />
+              )
             }
           </ul>
         </div>
@@ -116,7 +107,6 @@ class App extends React.Component {
           fishes={fishes}
           order={order}
           storeId={storeId}
-          removeFromOrder={(key) => this.removeFromOrder(key)}
         />
         <Inventory
           addFish={(fish) => this.addFish(fish)}
