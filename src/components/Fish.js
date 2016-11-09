@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
     const { index } = this.props
     const isAvailable = status === 'available'
     const buttonText = isAvailable ? 'Add To Order' : 'Sold Out!'
+    const store = orderStore.getStore(this.props.storeId)
 
     return (
       <li className='menu-fish'>
@@ -18,7 +19,7 @@ import { observer } from 'mobx-react'
           <span className='price'> {formatPrice(price)} </span>
         </h3>
         <p> {desc} </p>
-        <button onClick={() => orderStore.addToOrder(index)} disabled={!isAvailable}> {buttonText} </button>
+        <button onClick={() => store.addToOrder(index)} disabled={!isAvailable}> {buttonText} </button>
       </li>
     )
   }
@@ -32,6 +33,7 @@ Fish.propTypes = {
     desc: React.PropTypes.string.isRequired,
     status: React.PropTypes.string.isRequired
   }),
+  storeId: React.PropTypes.string.isRequired,
   index: React.PropTypes.string.isRequired
 }
 

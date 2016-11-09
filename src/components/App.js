@@ -17,14 +17,14 @@ import { observer } from 'mobx-react'
   }
 
   componentWillMount() {
-    const { storeId } = this.props.params
-    database.ref(`${storeId}/fishes`).on('value', (snapshot) => {
+    this.storeId = this.props.params.storeId
+    database.ref(`${this.storeId}/fishes`).on('value', (snapshot) => {
       if (snapshot.val() !== null) {
         this.setState({fishes: snapshot.val()})
       }
     })
 
-    const localStorageRef = localStorage.getItem(`order-${storeId}`)
+    const localStorageRef = localStorage.getItem(`order-${this.storeId}`)
     if (localStorageRef) {
       this.setState({
         order: JSON.parse(localStorageRef)
@@ -38,8 +38,8 @@ import { observer } from 'mobx-react'
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { storeId } = this.props.params
-    localStorage.setItem(`order-${ storeId }`, JSON.stringify(nextState.order))
+    // const { storeId } = this.props.params
+    // localStorage.setItem(`order-${ storeId }`, JSON.stringify(nextState.order))
   }
 
   loadSamples() {
@@ -85,8 +85,8 @@ import { observer } from 'mobx-react'
   }
 
   render() {
-    const { fishes, order } = this.state
-    const { storeId } = this.props.params
+    const { fishes } = this.state
+
     return(
       <div className='catch-of-the-day'>
         <div className='menu'>
@@ -97,6 +97,7 @@ import { observer } from 'mobx-react'
                 <Fish
                   key={key}
                   index={key}
+                  storeId={this.storeId}
                   details={fishes[key]}
                 />
               )
@@ -105,8 +106,7 @@ import { observer } from 'mobx-react'
         </div>
         <Order
           fishes={fishes}
-          order={order}
-          storeId={storeId}
+          storeId={this.storeId}
         />
         <Inventory
           addFish={(fish) => this.addFish(fish)}
@@ -114,7 +114,7 @@ import { observer } from 'mobx-react'
           fishes={fishes}
           updateFish={(key, updatedFish) => this.updateFish(key, updatedFish)}
           removeFish={(key) => this.removeFish(key)}
-          storeId={storeId}
+          storeId={this.storeId}
           />
       </div>
     )

@@ -6,11 +6,15 @@ import { observer } from 'mobx-react'
 import orderStore from '../stores/Order'
 
 @observer class Order extends React.Component {
+  componentWillMount() {
+    this.store = orderStore.getStore(this.props.storeId)
+  }
+
   renderOrder(key) {
     const { fishes } = this.props
     const fish = fishes[key]
-    const count = orderStore.order[key]
-    const removeButton = <button onClick={() => orderStore.removeFromOrder(key)}>&times;</button>
+    const count = this.store.order[key]
+    const removeButton = <button onClick={() => this.store.removeFromOrder(key)}>&times;</button>
 
     if (!fish || fish.status === 'unavailable') {
       return <li key={key}>Sorry, Fish is no longer available! {removeButton}</li>
@@ -38,10 +42,10 @@ import orderStore from '../stores/Order'
 
   render() {
     const { fishes } = this.props
-    const orderIds = Object.keys(orderStore.order)
+    const orderIds = Object.keys(this.store.order)
     const total = orderIds.reduce((prevTotal, key) => {
       const fish = fishes[key]
-      const count = orderStore.order[key]
+      const count = this.store.order[key]
       const isAvailable = fish && fish.status === 'available'
       if (isAvailable) {
         return prevTotal + (count * fish.price || 0)
