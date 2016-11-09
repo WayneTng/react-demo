@@ -1,12 +1,12 @@
 import React from 'react'
-import Header from './Header'
-import Order from './Order'
-import Inventory from './Inventory'
-import Fish from './Fish'
+import Header from '../components/Header'
+import Order from '../components/Order'
+import Inventory from '../components/Inventory'
+import Fish from '../components/Fish'
 import { observer } from 'mobx-react'
 import FishStore from '../stores/Fish'
 
-@observer class App extends React.Component {
+@observer class Main extends React.Component {
   componentWillMount() {
     this.fishStore = FishStore.getStore(this.props.params.storeId)
   }
@@ -39,8 +39,8 @@ import FishStore from '../stores/Fish'
   }
 }
 
-App.propTypes = {
+Main.propTypes = {
   params: React.PropTypes.object.isRequired
 }
 
-export default App
+export default Main

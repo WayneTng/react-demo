@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatPrice } from '../helpers'
+import { formatPrice } from '../lib/helpers'
 import orderStore from '../stores/Order'
 import { observer } from 'mobx-react'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import AddFishForm from './AddFishForm'
 import firebase from 'firebase/app'
-import { auth, database } from '../firebase'
+import { auth, database } from '../db/firebase'
 import { observer } from 'mobx-react'
 import FishStore from '../stores/Fish'
 

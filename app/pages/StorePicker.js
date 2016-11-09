@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getFunName } from '../helpers'
+import { getFunName } from '../lib/helpers'
 
 class StorePicker extends React.Component {
   goToStore(event) {

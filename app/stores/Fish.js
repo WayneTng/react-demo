@@ -1,6 +1,6 @@
 import { observable } from 'mobx'
-import { database } from '../firebase'
-import sampleFishes from '../sample-fishes'
+import { database } from '../db/firebase'
+import sampleFishes from '../db/seeds/fishes'
 
 class FishStore {
   @observable fishes = {}
