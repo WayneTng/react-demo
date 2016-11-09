@@ -2,14 +2,20 @@ import React from 'react'
 import AddFishForm from './AddFishForm'
 import firebase from 'firebase/app'
 import { auth, database } from '../firebase'
+import { observer } from 'mobx-react'
+import FishStore from '../stores/Fish'
 
-class Inventory extends React.Component {
+@observer class Inventory extends React.Component {
   constructor() {
     super()
     this.state = {
       uid: null,
       owner: null
     }
+  }
+
+  componentWillMount() {
+    this.store = FishStore.getStore(this.props.storeId)
   }
 
   componentDidMount() {
@@ -21,10 +27,9 @@ class Inventory extends React.Component {
   }
 
   handleChange(e, key) {
-    const { fishes, updateFish } = this.props
-    const fish = fishes[key]
+    const fish = this.store.fishes[key]
     const updatedFish = {...fish, [e.target.name]: e.target.value}
-    updateFish(key, updatedFish)
+    this.store.updateFish(key, updatedFish)
   }
 
   renderLogin() {
@@ -63,7 +68,7 @@ class Inventory extends React.Component {
   }
 
   renderInventory(key) {
-    const fish = this.props.fishes[key]
+    const fish = this.store.fishes[key]
     return(
       <div className='fish-edit' key={key}>
         <input type='text' name='name' value={fish.name} placeholder='Fish Name' onChange={(e) => this.handleChange(e, key)} />
@@ -74,7 +79,7 @@ class Inventory extends React.Component {
         </select>
         <textarea type='text' name='desc' value={fish.desc} placeholder='Fish Desc' onChange={(e) => this.handleChange(e, key)} />
         <input type='text' name='image' value={fish.image} placeholder='image' onChange={(e) => this.handleChange(e, key)} />
-        <button onClick={() => this.props.removeFish(key)}> Remove Fish </button>
+        <button onClick={() => this.store.removeFish(key)}> Remove Fish </button>
       </div>
     )
   }
@@ -87,7 +92,6 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const { fishes, addFish, loadSamples } = this.props
     const { uid, owner } = this.state
     const logout = <button onClick={() => this.logout()}> Log Out! </button>
 
@@ -108,19 +112,15 @@ class Inventory extends React.Component {
       <div>
         <h2> Inventory </h2>
         {logout}
-        {Object.keys(fishes).map((key) => this.renderInventory(key))}
-        <AddFishForm addFish={addFish} />
-        <button onClick={loadSamples}> Load Sample Fishes </button>
+        {Object.keys(this.store.fishes).map((key) => this.renderInventory(key))}
+        <AddFishForm addFish={this.store.addFish} />
+        <button onClick={this.store.loadSamples}> Load Sample Fishes </button>
       </div>
     )
   }
 }
 
 Inventory.propTypes = {
-  fishes: React.PropTypes.object.isRequired,
-  removeFish: React.PropTypes.func.isRequired,
-  addFish: React.PropTypes.func.isRequired,
-  loadSamples: React.PropTypes.func.isRequired,
   storeId: React.PropTypes.string.isRequired
 }
 export default Inventory

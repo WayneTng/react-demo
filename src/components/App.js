@@ -3,77 +3,17 @@ import Header from './Header'
 import Order from './Order'
 import Inventory from './Inventory'
 import Fish from './Fish'
-import sampleFishes from '../sample-fishes'
-import { database } from '../firebase'
 import { observer } from 'mobx-react'
+import FishStore from '../stores/Fish'
 
 @observer class App extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      fishes: {},
-      inventory: {}
-    }
-  }
-
   componentWillMount() {
-    this.storeId = this.props.params.storeId
-    database.ref(`${this.storeId}/fishes`).on('value', (snapshot) => {
-      if (snapshot.val() !== null) {
-        this.setState({fishes: snapshot.val()})
-      }
-    })
-  }
-
-  componentWillUnmount() {
-    const { storeId } = this.props.params
-    database.ref(`${storeId}/fishes`).off()
-  }
-
-  loadSamples() {
-    const { storeId } = this.props.params
-    database.ref(`${storeId}/fishes`).set(
-      sampleFishes
-    )
-
-    this.setState({
-      fishes: sampleFishes
-    })
-  }
-
-  addFish(fish) {
-    const fishes = { ...this.state.fishes }
-    const timestamp = Date.now()
-    const fishId = `fish-${ timestamp }`
-
-    fishes[fishId] = fish
-    this.setState({ fishes })
-
-    const { storeId } = this.props.params
-    database.ref(`${storeId}/fishes/${fishId}`).set(fish)
-  }
-
-  updateFish(key, updatedFish) {
-    const fishes = {...this.state.fishes}
-    const { storeId } = this.props.params
-
-    fishes[key] = updatedFish
-    this.setState({ fishes })
-
-    database.ref(`${storeId}/fishes`).child(key).update(updatedFish)
-  }
-
-  removeFish(key) {
-    const { storeId } = this.props.params
-    const fishes = {...this.state.fishes}
-
-    delete fishes[key]
-    this.setState({ fishes })
-    database.ref(`${storeId}/fishes/${key}`).remove()
+    this.fishStore = FishStore.getStore(this.props.params.storeId)
   }
 
   render() {
-    const { fishes } = this.state
+    const { fishes } = this.fishStore
+    const { storeId } = this.props.params
 
     return(
       <div className='catch-of-the-day'>
@@ -85,25 +25,15 @@ import { observer } from 'mobx-react'
                 <Fish
                   key={key}
                   index={key}
-                  storeId={this.storeId}
+                  storeId={storeId}
                   details={fishes[key]}
                 />
               )
             }
           </ul>
         </div>
-        <Order
-          fishes={fishes}
-          storeId={this.storeId}
-        />
-        <Inventory
-          addFish={(fish) => this.addFish(fish)}
-          loadSamples={() => this.loadSamples()}
-          fishes={fishes}
-          updateFish={(key, updatedFish) => this.updateFish(key, updatedFish)}
-          removeFish={(key) => this.removeFish(key)}
-          storeId={this.storeId}
-          />
+        <Order storeId={storeId} />
+        <Inventory storeId={storeId} />
       </div>
     )
   }

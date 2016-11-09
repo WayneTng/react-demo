@@ -6,10 +6,10 @@ import { observer } from 'mobx-react'
 @observer class Fish extends React.Component {
   render() {
     const { name, image, price, desc, status } = this.props.details
-    const { index } = this.props
+    const { index, storeId } = this.props
     const isAvailable = status === 'available'
     const buttonText = isAvailable ? 'Add To Order' : 'Sold Out!'
-    const store = orderStore.getStore(this.props.storeId)
+    const store = orderStore.getStore(storeId)
 
     return (
       <li className='menu-fish'>

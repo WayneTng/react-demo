@@ -4,15 +4,17 @@ import CSSTransitionGroup from 'react-addons-css-transition-group'
 import Timer from './Timer'
 import { observer } from 'mobx-react'
 import orderStore from '../stores/Order'
+import fishStore from '../stores/Fish'
 
 @observer class Order extends React.Component {
   componentWillMount() {
-    this.store = orderStore.getStore(this.props.storeId)
+    const { storeId } = this.props
+    this.store = orderStore.getStore(storeId)
+    this.fishStore = fishStore.getStore(storeId)
   }
 
   renderOrder(key) {
-    const { fishes } = this.props
-    const fish = fishes[key]
+    const fish = this.fishStore.fishes[key]
     const count = this.store.order[key]
     const removeButton = <button onClick={() => this.store.removeFromOrder(key)}>&times;</button>
 
@@ -41,10 +43,9 @@ import orderStore from '../stores/Order'
   }
 
   render() {
-    const { fishes } = this.props
     const orderIds = Object.keys(this.store.order)
     const total = orderIds.reduce((prevTotal, key) => {
-      const fish = fishes[key]
+      const fish = this.fishStore.fishes[key]
       const count = this.store.order[key]
       const isAvailable = fish && fish.status === 'available'
       if (isAvailable) {
@@ -76,7 +77,7 @@ import orderStore from '../stores/Order'
 }
 
 Order.propTypes = {
-  fishes: React.PropTypes.object.isRequired
+  storeId: React.PropTypes.string.isRequired
 }
 
 export default Order
