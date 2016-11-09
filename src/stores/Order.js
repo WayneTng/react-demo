@@ -5,6 +5,16 @@ class OrderStore {
 
   constructor(storeId) {
     this.storeId = storeId
+    this.localStorageKey = `order-${this.storeId}`
+
+    const localStorageRef = localStorage.getItem(this.localStorageKey)
+    if (localStorageRef) {
+      this.order = JSON.parse(localStorageRef)
+    }
+  }
+
+  saveToLocalStorage() {
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.order))
   }
 
   addToOrder(key) {
@@ -12,11 +22,14 @@ class OrderStore {
       ...this.order,
       [key]: this.order[key] + 1 || 1
     }
+
+    this.saveToLocalStorage()
   }
 
   removeFromOrder(key) {
     delete this.order[key]
     this.order = {...this.order}
+    this.saveToLocalStorage()
   }
 }
 

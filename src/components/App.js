@@ -23,23 +23,11 @@ import { observer } from 'mobx-react'
         this.setState({fishes: snapshot.val()})
       }
     })
-
-    const localStorageRef = localStorage.getItem(`order-${this.storeId}`)
-    if (localStorageRef) {
-      this.setState({
-        order: JSON.parse(localStorageRef)
-      })
-    }
   }
 
   componentWillUnmount() {
     const { storeId } = this.props.params
     database.ref(`${storeId}/fishes`).off()
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    // const { storeId } = this.props.params
-    // localStorage.setItem(`order-${ storeId }`, JSON.stringify(nextState.order))
   }
 
   loadSamples() {
