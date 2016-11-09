@@ -1,31 +1,25 @@
 import React from 'react'
 
-import { getFunName } from '../helpers'
+function log(target, name, descriptor) {
+  console.log({
+    target, // instance of the class
+    name, // name of the decorated function
+    descriptor // contains the function
+  })
+}
 
 class StorePicker extends React.Component {
-  goToStore(event) {
-    event.preventDefault()
-    const storeId = this.storeInput.value
-    this.context.router.transitionTo(`/store/${storeId}`)
+  @log renderMe() {
+    return <h1>Hello, world!</h1>
   }
 
   render() {
     return (
       <div>
-        <form className='store-selector' onSubmit={(e) => this.goToStore(e)}>
-          <h2> Please enter a store </h2>
-          <input ref={(input) => {this.storeInput = input} } type='text' required={true} placeholder='Store Name' defaultValue={getFunName()} />
-          <button type='submit'>
-            Visit Store
-          </button>
-        </form>
+        {this.renderMe()}
       </div>
     )
   }
-}
-
-StorePicker.contextTypes = {
-  router: React.PropTypes.object.isRequired
 }
 
 export default StorePicker

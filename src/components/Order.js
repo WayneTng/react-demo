@@ -3,11 +3,11 @@ import {formatPrice} from '../helpers'
 import CSSTransitionGroup from 'react-addons-css-transition-group'
 import Timer from './Timer'
 import { observer } from 'mobx-react'
-import orderStore from '../stores/Order'
+import orderStoreFactory from '../stores/Order'
 
 @observer class Order extends React.Component {
   componentWillMount() {
-    this.store = orderStore.getStore(this.props.storeId)
+    this.store = orderStoreFactory.getStore(this.props.storeId)
   }
 
   renderOrder(key) {
