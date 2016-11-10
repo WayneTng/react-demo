@@ -67,8 +67,8 @@
     "deploy": "npm run build && firebase deploy",
     "watch": "concurrently --names 'webpack, stylus' --prefix name 'npm run start' 'npm run styles:watch'",
     "build": "node scripts/build.js",
-    "styles": "stylus -u autoprefixer-stylus ./src/css/style.styl -o ./src/css/style.css",
-    "styles:watch": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./src/css/style.css"
+    "styles": "stylus -u autoprefixer-stylus ./app/assets/css/style.styl -o ./app/assets/css/style.css",
+    "styles:watch": "stylus -u autoprefixer-stylus -w ./app/assets/css/style.styl -o ./app/assets/css/style.css"
   },
   "eslintConfig": {
     "extends": "react-app"
