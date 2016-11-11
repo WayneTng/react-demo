@@ -1,0 +1,63 @@
+exports[`<AddFIshForm /> renders a fish form 1`] = `
+<form
+  className="fish-edit"
+  onSubmit={[Function onSubmit]}>
+  <input
+    placeholder="Fish Name"
+    type="text" />
+  <input
+    placeholder="Fish Price"
+    type="text" />
+  <select>
+    <option
+      value="available">
+       Fresh! 
+    </option>
+    <option
+      value="unavailable">
+       Sold Out! 
+    </option>
+  </select>
+  <textarea
+    placeholder="Fish Desc" />
+  <input
+    placeholder="Fish Image"
+    type="text" />
+  <button
+    type="submit">
+     + Add Item 
+  </button>
+</form>
+`;
+
+exports[`<AddFishForm /> renders a fish form 1`] = `
+<form
+  className="fish-edit"
+  onSubmit={[Function onSubmit]}>
+  <input
+    placeholder="Fish Name"
+    type="text" />
+  <input
+    placeholder="Fish Price"
+    type="text" />
+  <select>
+    <option
+      value="available">
+       Fresh! 
+    </option>
+    <option
+      value="unavailable">
+       Sold Out! 
+    </option>
+  </select>
+  <textarea
+    placeholder="Fish Desc" />
+  <input
+    placeholder="Fish Image"
+    type="text" />
+  <button
+    type="submit">
+     + Add Item 
+  </button>
+</form>
+`;
