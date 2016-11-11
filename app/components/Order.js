@@ -57,19 +57,13 @@ import fishStore from '../stores/Fish'
     return(
       <div className='order-wrap'>
         <h2> Your Order </h2>
-        <CSSTransitionGroup
-          className='order'
-          component='ul'
-          transitionName='order'
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-          >
+        <ul className='order'>
           {orderIds.map((key) => this.renderOrder(key))}
           <li className='total'>
             <strong> Total: </strong>
             {formatPrice(total)}
           </li>
-        </CSSTransitionGroup>
+        </ul>
         <Timer />
       </div>
     )

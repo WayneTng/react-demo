@@ -1,0 +1,36 @@
+exports[`<Order /> renders the order list 1`] = `
+<div
+  className="order-wrap">
+  <h2>
+     Your Order 
+  </h2>
+  <ul
+    className="order">
+    <li>
+      Sorry, Fish is no longer available! 
+      <button
+        onClick={[Function onClick]}>
+        ×
+      </button>
+    </li>
+    <li>
+      Sorry, Fish is no longer available! 
+      <button
+        onClick={[Function onClick]}>
+        ×
+      </button>
+    </li>
+    <li
+      className="total">
+      <strong>
+         Total: 
+      </strong>
+      $0.00
+    </li>
+  </ul>
+  <div>
+    Seconds Elapsed: 
+    0
+  </div>
+</div>
+`;
